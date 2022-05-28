@@ -165,6 +165,8 @@ sdc                     8:32   0 465.8G  0 disk
     └─bcache0         253:0    0 465.8G  0 disk /
 ########################################################
 
+echo writeback | sudo tee /sys/block/bcache0/bcache/cache_mode
+
 # 消すとき
 echo 1 | sudo tee /sys/block/bcache0/bcache/stop
 sudo wipefs -a /dev/sdc1
