@@ -2,3 +2,8 @@ root@alice:~# losetup -o 8192 /dev/loop0 /dev/mapper/500100MB-hddroot
 root@alice:~# mount /dev/loop0 /mnt
 root@alice:~# cd /mnt
 ここにファイルが出てくる！！！！！！！！
+
+
+
+
+https://forums.gentoo.org/viewtopic-t-1068150-start-0.html
