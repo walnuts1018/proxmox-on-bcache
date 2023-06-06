@@ -1,6 +1,9 @@
 from https://qiita.com/penkoba/items/b245c42980f7b0e16193
+
 from https://gist.github.com/proshunsuke/420a060a9600320a2f456e10ebb3ce01
+
 from https://www.mk-mode.com/blog/2021/09/08/debian-11-initial-setting/
+
 from https://qiita.com/tadakado/items/625109cb9902b070042a
 
 root
