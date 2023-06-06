@@ -1,23 +1,23 @@
-# from https://qiita.com/penkoba/items/b245c42980f7b0e16193
-# from https://gist.github.com/proshunsuke/420a060a9600320a2f456e10ebb3ce01
-# from https://www.mk-mode.com/blog/2021/09/08/debian-11-initial-setting/
-# from https://qiita.com/tadakado/items/625109cb9902b070042a
+from https://qiita.com/penkoba/items/b245c42980f7b0e16193
+from https://gist.github.com/proshunsuke/420a060a9600320a2f456e10ebb3ce01
+from https://www.mk-mode.com/blog/2021/09/08/debian-11-initial-setting/
+from https://qiita.com/tadakado/items/625109cb9902b070042a
 
-# root
+root
 nano /etc/apt/sources.list
 
-####################################
+```
 - deb cdrom:[Debian GNU/Linux 11.3.0 _Bullseye_ - Official amd64 DVD Binary-1 20220326-11:23]/ bullseye contrib main
 + #deb cdrom:[Debian GNU/Linux 11.3.0 _Bullseye_ - Official amd64 DVD Binary-1 20220326-11:23]/ bullseye contrib main
-####################################
+```
 apt update && apt upgrade
 apt install sudo
 
 usermod -G sudo juglans
 ip a
-# juglans
+
 lsblk
-#############################################
+```
 NAME                  MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
 sda                     8:0    0 223.6G  0 disk
 ├─sda1                  8:1    0   512M  0 part /boot/efi
@@ -30,7 +30,7 @@ sdb                     8:16   0 931.5G  0 disk
 sdc                     8:32   0 465.8G  0 disk
 └─sdc1                  8:33   0 465.8G  0 part
   └─500100MB-hddroot  254:1    0 465.8G  0 lvm
-##############################################
+```
 
 sudo apt install bcache-tools
 sudo modprobe bcache
@@ -38,7 +38,7 @@ sudo /usr/sbin/make-bcache -B /dev/mapper/500100MB-hddroot
 sudo mkfs.ext4 /dev/bcache0
 
 lsblk
-#################################################
+```
 NAME                  MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
 sda                     8:0    0 223.6G  0 disk
 ├─sda1                  8:1    0   512M  0 part /boot/efi
@@ -52,13 +52,14 @@ sdc                     8:32   0 465.8G  0 disk
 └─sdc1                  8:33   0 465.8G  0 part
   └─500100MB-hddroot  254:1    0 465.8G  0 lvm
     └─bcache0         253:0    0 465.8G  0 disk
-##################################################
+```
 
 sudo mount /dev/bcache0 /mnt
 sudo apt install libarchive-tools
 sudo bsdtar cvpf - --one-file-system / | sudo bsdtar xvpf - -C /mnt
 ls -l /dev/disk/by-uuid
-######################################################################
+
+```
 total 0
 lrwxrwxrwx 1 root root 10 May 28 21:18 137c9885-945a-4ff3-aca6-ef85017ae5e1 -> ../../sda2
 lrwxrwxrwx 1 root root 10 May 28 21:18 5A64E4CD64E4AD47 -> ../../sdb1
@@ -67,10 +68,10 @@ lrwxrwxrwx 1 root root 13 May 28 21:25 69400c3e-523a-46e7-bec0-7e74bb498a69 -> .
 lrwxrwxrwx 1 root root 10 May 28 21:18 d812e2c5-4cd2-4b94-91f0-edbd8f36d4ef -> ../../dm-0
 lrwxrwxrwx 1 root root 10 May 28 21:18 ED63-690E -> ../../sda1
 lrwxrwxrwx 1 root root 10 May 28 21:25 f865d415-c4cb-4473-8099-f984f287c60b -> ../../dm-1
-######################################################################
+```
 
 sudo nano /mnt/etc/fstab
-##################################################################################################
+``````
 # /etc/fstab: static file system information.
 #
 # Use 'blkid' to print the universally unique identifier for a
@@ -88,7 +89,7 @@ UUID=137c9885-945a-4ff3-aca6-ef85017ae5e1 /boot           ext4    defaults      
 UUID=ED63-690E  /boot/efi       vfat    umask=0077      0       1
 # swap was on /dev/sda3 during installation
 UUID=5db31726-7f98-4c8b-afdd-b8abb4a04840 none            swap    sw              0       0
-#######################################################################################################
+``````
 
 sudo mount -B /dev /mnt/dev
 sudo mount -B /proc /mnt/proc
@@ -103,7 +104,7 @@ exit
 sudo reboot
 
 df
-##############################################################
+```
 Filesystem     1K-blocks    Used Available Use% Mounted on
 udev             8098512       0   8098512   0% /dev
 tmpfs            1623268    1272   1621996   1% /run
@@ -113,10 +114,10 @@ tmpfs               5120       0      5120   0% /run/lock
 /dev/sda2        1405264   87272   1228344   7% /boot
 /dev/sda1         523244    3484    519760   1% /boot/efi
 tmpfs            1623264       0   1623264   0% /run/user/1000
-#################################################################
+```
 
 lsblk
-###############################################################
+```
 NAME                  MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
 sda                     8:0    0 223.6G  0 disk
 ├─sda1                  8:1    0   512M  0 part /boot/efi
@@ -130,11 +131,12 @@ sdc                     8:32   0 465.8G  0 disk
 └─sdc1                  8:33   0 465.8G  0 part
   └─500100MB-hddroot  254:1    0 465.8G  0 lvm
     └─bcache0         253:0    0 465.8G  0 disk /
-###############################################################
+```
 
 sudo wipefs -a /dev/mapper/237000MB-ssdcache
 sudo make-bcache -C /dev/mapper/237000MB-ssdcache
-######################################################
+
+```
 UUID:                   a7ae10f2-7881-4f9a-a2a0-192fb4380c2d
 Set UUID:               3c229b96-671a-4309-a9a4-5866a5ecffcf
 version:                0
@@ -144,11 +146,11 @@ bucket_size:            1024
 nr_in_set:              1
 nr_this_dev:            0
 first_bucket:           1
-######################################################
+```
 
 echo 3c229b96-671a-4309-a9a4-5866a5ecffcf | sudo tee /sys/block/bcache0/bcache/attach
 lsblk
-########################################################
+```
 NAME                  MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
 sda                     8:0    0 223.6G  0 disk
 ├─sda1                  8:1    0   512M  0 part /boot/efi
@@ -163,21 +165,22 @@ sdc                     8:32   0 465.8G  0 disk
 └─sdc1                  8:33   0 465.8G  0 part
   └─500100MB-hddroot  254:1    0 465.8G  0 lvm
     └─bcache0         253:0    0 465.8G  0 disk /
-########################################################
+```
 
 echo writeback | sudo tee /sys/block/bcache0/bcache/cache_mode
 
-# 消すとき
+消すとき
 echo 1 | sudo tee /sys/block/bcache0/bcache/stop
 sudo wipefs -a /dev/sdc1
 
 
 
-# proxmoxintall ###############################################
+## proxmoxintall
+
 sudo su -
 apt install -y man-db less sudo net-tools tmux unzip
 nano /etc/network/interfaces
-##################################################################
+```
 # This file describes the network interfaces available on your system
 # and how to activate them. For more information, see interfaces(5).
 
@@ -198,24 +201,26 @@ iface enp0s31f6 inet static
     address 192.168.0.11
     netmask 255.255.255.0
     gateway 192.168.0.1
-##################################################################
+```
 nano /etc/hosts
-#############
+```
 192.168.0.11    alice.alice.home        alice
-#############
+```
 
 nano /etc/ssh/sshd_config
-#####
+```
 PasswordAuthentication yes
 PermitRootLogin yes
-#######
+```
 systemctl reload ssh
 reboot
 
-#######sshclientで
+## sshclientで
+
+```
 ssh-keygen -t rsa -b 4096
 ssh-copy-id -i pve.pub juglans@192.168.0.11
-#######
+```
 
 echo "deb [arch=amd64] http://download.proxmox.com/debian/pve bullseye pve-no-subscription" > /etc/apt/sources.list.d/pve-install-repo.list
 
@@ -235,7 +240,7 @@ apt remove linux-image-amd64 'linux-image-5.10*'
 update-grub
 
 nano /etc/network/interfaces
-##########################################################
+```
 # network interface settings; autogenerated
 # Please do NOT modify this file directly, unless you know what
 # you're doing.
@@ -268,8 +273,8 @@ iface vmbr0 inet static
     bridge-ports enp0s31f6
     bridge-stp off
     bridge-fd 0
-##########################################################
+```
 
-reboot
+## reboot
 
-# https://zenn.dev/northeggman/articles/49c6b73c03c81c#vm%E4%BD%9C%E6%88%90
+https://zenn.dev/northeggman/articles/49c6b73c03c81c#vm%E4%BD%9C%E6%88%90
